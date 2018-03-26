@@ -1,7 +1,11 @@
 backend:
   name: github
-  repo: owenhoskins/gatsby-sharp-netlify-cms
+  repo: swartists/starworksartists.com
   branch: development # Branch to update (optional; defaults to master)
+
+# publish_mode: editorial_workflow
+
+# github.com/swartists/starworksartists.com
 
 #display_url: https://example.com
 #media_folder: "assets/uploads"
@@ -38,7 +42,7 @@ collections: # A list of collections the CMS should be able to edit
       - {name: kind, widget: hidden, default: 'artist'}
       - {label: "Name", name: "title", widget: "string", tagname: "h1"}
       - {label: "Type", name: "type", widget: "select", options: ["hair", "makeup", "stylist", "grooming", "manicurist", "color"]}
-      - {label: "Cover Image", name: "cover", widget: "image", required: true, tagname: ""}
+      - {label: "Cover Image", name: "cover", widget: "image", tagname: "", optional: true}
       - {label: "Instagram handle", name: "instagram_handle", widget: "string", tagname: "p", required: false}
       - {label: "Enquire", name: "enquire", widget: "string", tagname: "p", required: false}
       - name: portfolios
@@ -58,11 +62,13 @@ collections: # A list of collections the CMS should be able to edit
               - {name: 'focalY', label: 'Focal Y', widget: 'number', default: 0, valueType: 'int', min: 0, max: 100}
       - name: videos
         label: Videos
-        widget: list
+        widget: vimeo
         optional: true
         fields:
           - {label: 'Title', name: 'title', widget: 'string'}
-          - {label: 'URL', name: 'url', widget: 'string'}
+          - {label: 'ID', name: 'url', widget: 'number'}
+          - {label: 'Ratio', name: 'ratio', widget: hidden}
+          - {label: 'Poster', name: 'poster', widget: hidden}
       - {label: "Biography Text", name: "body", widget: "markdown"}
 
 

@@ -28,6 +28,8 @@ import ObjectPreview from './Object/ObjectPreview';
 import RelationControl from './Relation/RelationControl';
 import RelationPreview from './Relation/RelationPreview';
 import BooleanControl from './Boolean/BooleanControl';
+import VimeoControl from './Vimeo/VimeoControl';
+import VimeoPreview from './Vimeo/VimeoPreview';
 
 
 registerWidget('string', StringControl, StringPreview);
@@ -46,3 +48,4 @@ registerWidget('boolean', BooleanControl);
 registerWidget('unknown', UnknownControl, UnknownPreview);
 
 registerWidget('gallery', ListControl, GalleryPreview);
+registerWidget('vimeo', VimeoControl, VimeoPreview);
