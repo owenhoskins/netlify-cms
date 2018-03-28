@@ -42,19 +42,19 @@ collections: # A list of collections the CMS should be able to edit
       - {name: kind, widget: hidden, default: 'artist'}
       - {label: "Name", name: "title", widget: "string", tagname: "h1"}
       - {label: "Type", name: "type", widget: "select", options: ["hair", "makeup", "stylist", "grooming", "manicurist", "color"]}
-      - {label: "Cover Image", name: "cover", widget: "image", tagname: "", optional: true}
+      - {label: "Cover Image", name: "cover", widget: "image", tagname: "", required: false}
       - {label: "Instagram handle", name: "instagram_handle", widget: "string", tagname: "p", required: false}
       - {label: "Enquire", name: "enquire", widget: "string", tagname: "p", required: false}
       - name: portfolios
         label: Portfolios
         widget: list
-        optional: true
+        required: false
         fields:
           - {label: 'Title', name: 'title', widget: 'string'}
+          - {label: 'Columns', name: 'columns', widget: 'number', min: 3, max: 9}
           - name: gallery
             label: Gallery
             widget: gallery
-            required: true
             fields:
               - {name: image, label: Image, widget: image, class: 'gallery'}
               - {name: 'fullscreen', label: 'Fullscreen', widget: 'boolean', default: false }
@@ -63,13 +63,13 @@ collections: # A list of collections the CMS should be able to edit
       - name: videos
         label: Videos
         widget: vimeo
-        optional: true
+        required: false
         fields:
           - {label: 'Title', name: 'title', widget: 'string'}
           - {label: 'ID', name: 'url', widget: 'number'}
           - {label: 'Ratio', name: 'ratio', widget: hidden}
           - {label: 'Poster', name: 'poster', widget: hidden}
-      - {label: "Biography Text", name: "body", widget: "markdown"}
+      - {label: "Biography Text", name: "body", widget: "markdown", required: false}
 
 
 

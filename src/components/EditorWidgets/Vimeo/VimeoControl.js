@@ -8,7 +8,7 @@ import { SortableContainer, SortableElement, SortableHandle } from 'react-sortab
 import { Icon, ListItemTopBar } from 'UI';
 import ObjectControl from 'EditorWidgets/Object/ObjectControl';
 
-const ACCESS_TOKEN = '2be7787cf8427b099b37ddd485e056fd'
+const ACCESS_TOKEN = '3c67e5f3d4c0ec1382506774112cba7b'
 
 
 function ListItem(props) {
