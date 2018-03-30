@@ -55,13 +55,14 @@ collections: # A list of collections the CMS should be able to edit
               - {name: image, label: Image, widget: image, class: 'gallery'}
       - name: videos
         label: Videos
-        widget: list
-        optional: true
+        widget: vimeo
+        required: false
         fields:
           - {label: 'Title', name: 'title', widget: 'string'}
-          - {label: 'URL', name: 'url', widget: 'string'}
-      - {label: "Biography Text", name: "body", widget: "markdown", optional: true}
-
+          - {label: 'ID', name: 'url', widget: 'number'}
+          - {label: 'Ratio', name: 'ratio', widget: hidden}
+          - {label: 'Poster', name: 'poster', widget: hidden}
+      - {label: "Biography Text", name: "body", widget: "markdown", required: false}
 
 
   - name: 'gallery'

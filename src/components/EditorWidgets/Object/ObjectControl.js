@@ -71,7 +71,12 @@ export default class ObjectControl extends Component {
     const widgetName = field.get('widget') || 'string';
     const widget = resolveWidget(widgetName);
     const fieldName = field.get('name');
+
     const fieldValue = value && Map.isMap(value) ? value.get(fieldName) : value;
+
+    if (fieldName === 'title') {
+      //console.log('fieldName: ', fieldName, fieldValue, value && Map.isMap(value), value)
+    }
 
     return (
       <EditorControl
