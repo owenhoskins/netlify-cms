@@ -10,22 +10,6 @@ media_folder: 'static/img' # this is where netlify cms places images.
 public_folder: '/img' # this is where gatsby places images
 
 collections: # A list of collections the CMS should be able to edit
-  - name: "posts" # Used in routes, ie.: /admin/collections/:slug/edit
-    label: "Post" # Used in the UI, ie.: "New Post"
-    description: >
-      The description is a great place for tone setting, high level information, and editing
-      guidelines that are specific to a collection.
-    folder: "_posts"
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    create: true # Allow users to create new documents in this collection
-    fields: # The fields each document in this collection have
-      - {label: "Title", name: "title", widget: "string", tagname: "h1"}
-      - {label: "Publish Date", name: "date", widget: "datetime", format: "YYYY-MM-DD hh:mma"}
-      - {label: "Cover Image", name: "image", widget: "image", required: false, tagname: ""}
-      - {label: "Body", name: "body", widget: "markdown"}
-    meta:
-      - {label: "SEO Description", name: "description", widget: "text"}
-
 
   - name: artists
     label: Artists
@@ -43,7 +27,7 @@ collections: # A list of collections the CMS should be able to edit
       - {label: "Enquire", name: "enquire", widget: "string", tagname: "p", required: false}
       - name: portfolios
         label: Portfolios
-        widget: list
+        widget: portfolios
         optional: true
         fields:
           - {label: 'Title', name: 'title', widget: 'string'}
@@ -64,29 +48,6 @@ collections: # A list of collections the CMS should be able to edit
           - {label: 'Poster', name: 'poster', widget: hidden}
       - {label: "Biography Text", name: "body", widget: "markdown", required: false}
 
-
-  - name: 'gallery'
-    label: 'Gallery'
-    create: true
-    folder: "_gallery"
-    slug: '{{slug}}'
-    fields:
-      - {name: kind, widget: hidden, default: 'gallery'}
-      - {label: 'Title', name: 'title', widget: 'string'}
-      - name: images
-        label: Gallery
-        widget: gallery
-        optional: true
-        fields:
-          - {name: image, label: Image, widget: image, class: 'gallery'}
-
-  - name: "faq" # Used in routes, ie.: /admin/collections/:slug/edit
-    label: "FAQ" # Used in the UI, ie.: "New Post"
-    folder: "_faqs"
-    create: true # Allow users to create new documents in this collection
-    fields: # The fields each document in this collection have
-      - {label: "Question", name: "title", widget: "string", tagname: "h1"}
-      - {label: "Answer", name: "body", widget: "markdown"}
 
   - name: "settings"
     label: "Settings"
