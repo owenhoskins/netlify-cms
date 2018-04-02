@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: swartists/starworksartists.com
+  repo: owenhoskins/gatsby-sharp-netlify-cms
   branch: development # Branch to update (optional; defaults to master)
 
 #display_url: https://example.com
@@ -48,7 +48,6 @@ collections: # A list of collections the CMS should be able to edit
           - {label: 'Poster', name: 'poster', widget: hidden}
       - {label: "Biography Text", name: "body", widget: "markdown", required: false}
 
-
   - name: "settings"
     label: "Settings"
     delete: false # Prevent users from deleting documents in this collection
@@ -76,6 +75,7 @@ collections: # A list of collections the CMS should be able to edit
         fields:
           - name: authors
             label: Authors
+            label_singular: "Author"
             widget: list
             fields:
               - {label: "Name", name: "name", widget: "string"}

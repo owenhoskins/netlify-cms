@@ -31,7 +31,7 @@ import VimeoControl from './Vimeo/VimeoControl';
 import VimeoPreview from './Vimeo/VimeoPreview';
 //import GalleryControl from './Gallery/GalleryControl'
 import GalleryPreview from './Gallery/GalleryPreview'
-import PortfolioPreview from './Gallery/PortfolioPreview'
+//import PortfolioPreview from './Gallery/PortfolioPreview'
 
 
 registerWidget('string', StringControl, StringPreview);
@@ -50,5 +50,5 @@ registerWidget('boolean', BooleanControl);
 registerWidget('unknown', UnknownControl, UnknownPreview);
 
 registerWidget('gallery', ListControl, GalleryPreview);
-registerWidget('portfolios', ListControl, PortfolioPreview);
+//registerWidget('portfolios', ListControl, PortfolioPreview);
 registerWidget('vimeo', VimeoControl, VimeoPreview);
