@@ -4,6 +4,10 @@ import Observer from 'react-intersection-observer'
 
 // https://github.com/nodeca/pica
 // const picaJs = require('pica')();
+
+import CardImage from '../../MediaLibrary/CardImage'
+
+/*
 import picaImport from 'pica/dist/pica'
 const pica = picaImport()
 
@@ -78,6 +82,72 @@ export class ImageCanvas extends Component {
   }
 }
 
+*/
+
+class GalleryPreview extends Component {
+  state = {
+    show: false
+  }
+
+  toggleCollapse = () => this.setState({show: !this.state.show})
+
+  get images() {
+    const { value, getAsset } = this.props
+    const images = []
+    value.forEach(function(val, index) {
+      const src = val.getIn(['image'])
+      // console.log('valueMap: ', val);
+      // console.log('imageMap src: ', src)
+      const asset = getAsset(src)
+      if (asset) {
+        //images.push('https://raw.githubusercontent.com/swartists/starworksartists.com/development/static/' + asset.path)
+        images.push(asset.path)
+      }
+    })
+    return images
+  }
+
+  render() {
+    return (
+      <div
+        style={{
+          textAlign: 'left'
+        }}
+      >
+        <button onClick={this.toggleCollapse}>
+        { this.state.show ? 'Hide' : 'Show' }
+        </button>
+        <div
+          style={{
+            display: this.state.show ? 'block' : 'none',
+            textAlign: 'center'
+          }}
+        >
+        {
+          this.images.length > 0 && this.images.map((image, index) =>
+            <Observer key={index} tag={`span`} triggerOnce={true}>
+              { (inView) =>
+                <CardImage
+                  style={{
+                    display: 'inline-block',
+                    margin: '15px',
+                    cursor: 'pointer',
+                    height: '320px'
+                  }}
+                  src={image}
+                  isVisible={inView}
+                />
+              }
+            </Observer>
+          )
+        }
+        </div>
+      </div>
+    )
+  }
+}
+
+/*
 const GalleryPreview = ({ value, getAsset }) => {
   //console.log('GalleryPreview: field: ', field, field.get('fields'))
   //console.log('GalleryPreview: entry.getIn: ', entry, entry.getIn(['data', 'images']))
@@ -120,7 +190,7 @@ const GalleryPreview = ({ value, getAsset }) => {
   )
   // getIn data, images returns the List
   // return ( <div className="nc-widgetPreview">{(field && field.get('fields')) || null}</div>
-}
+}*/
 
 
 GalleryPreview.propTypes = {

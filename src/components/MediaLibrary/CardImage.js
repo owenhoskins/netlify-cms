@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Observer from 'react-intersection-observer'
 
 // https://github.com/nodeca/pica
 // const picaJs = require('pica')();
@@ -14,14 +13,14 @@ function blobToImg(img, blob, handler) {
 
   if (img && blob) {
     const imageUrl = URL.createObjectURL(blob)
-    console.log('img: ', img, ' blob: ', blob, ' imageUrl: ', imageUrl)
+    //console.log('img: ', img, ' blob: ', blob, ' imageUrl: ', imageUrl)
     //img.addEventListener('load', () => {
     //  console.log('img load!', imageUrl)
     //  return URL.revokeObjectURL(imageUrl)
     //})
 
     img.addEventListener('load', handler = function () {
-      console.log('img load!', imageUrl, handler)
+      // console.log('img load!', imageUrl, handler)
       return URL.revokeObjectURL(imageUrl)
     }, false)
 
@@ -50,13 +49,13 @@ class CardImage extends Component {
   componentWillUnmount() {
 
     if (this.img) {
-      console.log('unMount removeListener')
+      //console.log('unMount removeListener')
       this.img.removeEventListener('load',  this.handler, false)
     }
 
     if (this.imgMem) {
       this.imgMem.onload = function(){};
-      console.log('unMount unset onload: ', this.imgMem)
+      //console.log('unMount unset onload: ', this.imgMem)
       delete this.imgMem;
     }
 
@@ -73,6 +72,7 @@ class CardImage extends Component {
       nextProps.isVisible !== this.props.isVisible &&
       nextProps.isVisible
     ) {
+      //console.log('nextProps.isVisible: ', nextProps.isVisible)
       this.prepareCanvas(nextProps.src)
     }
   }
@@ -88,13 +88,14 @@ class CardImage extends Component {
       self.imgMem = new Image()
       self.imgMem.src = src
       self.imgMem.setAttribute('crossOrigin', '')
+      //console.log('self.imgMem: ', self.imgMem, src)
       self.imgMem.onload = function(event){
-        console.log('imgMem onLoad', src)
         let aspectRatio = self.imgMem.width / self.imgMem.height
         canvas.width = aspectRatio * 320
         canvas.height = 320
         // 276 * 2 = 552
         // 160 * 2 = 320
+        // console.log('imgMem onLoad', event, src, self.imgMem.width, self.imgMem.height)
         pica.resize(self.imgMem, canvas, {
           //unsharpAmount: 80,
           //unsharpRadius: 0.5,
@@ -104,7 +105,7 @@ class CardImage extends Component {
           return pica.toBlob(result, 'image/jpeg', 1)
         })
         .then(blob => {
-          self.props.saveBlob(self.props.fileId, blob)
+          if (self.props.saveBlob) self.props.saveBlob(self.props.fileId, blob)
           //console.log('resized to canvas & created blob!', blob)
           blobToImg(self.img, blob, this.handler)
         });
@@ -135,7 +136,7 @@ cancelToken - Promise instance. If defined, current operation will be terminated
 
   render() {
     return (
-      <div>
+      <div style={{display: 'inline-block'}}>
         <canvas
           ref={ (ref) => this.canvas = ref }
           style={{

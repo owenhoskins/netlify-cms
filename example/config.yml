@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: owenhoskins/gatsby-sharp-netlify-cms
+  repo: swartists/starworksartists.com
   branch: development # Branch to update (optional; defaults to master)
 
 #display_url: https://example.com
@@ -21,20 +21,21 @@ collections: # A list of collections the CMS should be able to edit
     fields:
       - {name: kind, widget: hidden, default: 'artist'}
       - {label: "Name", name: "title", widget: "string", tagname: "h1"}
-      - {label: "Type", name: "type", widget: "select", options: ["hair", "makeup", "stylist", "grooming", "manicurist", "color"]}
-      - {label: "Cover Image", name: "cover", widget: "image", optional: true, tagname: ""}
+      - {label: "Type", name: "type", widget: "select", options: ["hair", "makeup", "stylist", "grooming", "manicurist", "special-bookings"]}
+      - {label: "Cover Image", name: "cover", widget: "image",
+      required: false, tagname: ""}
       - {label: "Instagram handle", name: "instagram_handle", widget: "string", tagname: "p", required: false}
       - {label: "Enquire", name: "enquire", widget: "string", tagname: "p", required: false}
       - name: portfolios
         label: Portfolios
-        widget: portfolios
-        optional: true
+        widget: list
+        required: false
         fields:
           - {label: 'Title', name: 'title', widget: 'string'}
           - name: gallery
             label: Gallery
             widget: gallery
-            optional: true
+            required: false
             fields:
               - {name: image, label: Image, widget: image, class: 'gallery'}
       - name: videos
@@ -47,6 +48,19 @@ collections: # A list of collections the CMS should be able to edit
           - {label: 'Ratio', name: 'ratio', widget: hidden}
           - {label: 'Poster', name: 'poster', widget: hidden}
       - {label: "Biography Text", name: "body", widget: "markdown", required: false}
+
+  - name: services
+    label: Services
+    folder: 'src/pages/services'
+    slug: '/services/{{slug}}'
+    create: true
+    meta:
+      - {label: "SEO Description", name: "description", widget: "text"}
+    fields:
+      - {label: "Title", name: "title", widget: "string", tagname: "h1"}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Order", name: "order", widget: "number", min: 0, max: 99}
+
 
   - name: "settings"
     label: "Settings"
