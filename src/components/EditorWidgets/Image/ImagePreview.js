@@ -5,8 +5,9 @@ export default function ImagePreview({ value, getAsset }) {
   return (<div className='nc-widgetPreview'>
     { value ?
       <img
-        src={'https://raw.githubusercontent.com/swartists/starworksartists.com/development/static/' + getAsset(value)}
-        className='nc-imageWidget-image'
+        //src={'https://raw.githubusercontent.com/swartists/starworksartists.com/development/static/' + getAsset(value)}
+        src={getAsset(value)}
+        className='nc-imageWidget-image nc-imagePreview-image'
         role="presentation"
       />
       : null}
