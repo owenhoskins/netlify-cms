@@ -28,7 +28,23 @@ function blobToImg(img, blob, handler) {
   }
 
 }
+/*
+// Module build failed: SyntaxError: Deleting local variable in strict mode (41:4)
+function tearDown(img, imgMem, handler) {
+  if (img) {
+    //console.log('unMount removeListener')
+    img.removeEventListener('load',  handler, false)
+  }
 
+  if (imgMem) {
+    imgMem.onload = function(){};
+    console.log('unMount unset onload: ', imgMem)
+    delete imgMem;
+  }
+
+  handler = null
+}
+*/
 class CardImage extends Component {
 
   constructor(props) {
@@ -48,6 +64,8 @@ class CardImage extends Component {
 
   componentWillUnmount() {
 
+    //tearDown(this.img, this.imgMem, this.handler)
+
     if (this.img) {
       //console.log('unMount removeListener')
       this.img.removeEventListener('load',  this.handler, false)
@@ -63,7 +81,23 @@ class CardImage extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.src !== this.props.src) {
-      //this.prepareCanvas(nextProps.src)
+
+      //tearDown(this.img, this.imgMem, this.handler)
+      // hmm reapproach
+      console.log('new src: ', nextProps.src)
+      if (this.img) {
+        //console.log('unMount removeListener')
+        this.img.removeEventListener('load',  this.handler, false)
+      }
+
+      if (this.imgMem) {
+        this.imgMem.onload = function(){};
+        console.log('unMount unset onload: ', this.imgMem)
+        delete this.imgMem;
+      }
+      this.prepareCanvas(nextProps.src)
+      // so a new src is passed into the component
+      // so how to handle that. I expected the component to move but its not literally being sorted, the data tree is just changing
     }
 
     //if(nextProps.blob !== props.blob) {}

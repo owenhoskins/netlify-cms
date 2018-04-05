@@ -100,8 +100,8 @@ class GalleryPreview extends Component {
       // console.log('imageMap src: ', src)
       const asset = getAsset(src)
       if (asset) {
-        //images.push('https://raw.githubusercontent.com/swartists/starworksartists.com/development/static/' + asset.path)
-        images.push(asset.path)
+        images.push('https://raw.githubusercontent.com/swartists/starworksartists.com/development/static/' + asset.path)
+        //images.push(asset.path)
       }
     })
     return images
