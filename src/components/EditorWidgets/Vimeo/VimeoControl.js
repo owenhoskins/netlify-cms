@@ -164,6 +164,10 @@ export default class VimeoControl extends Component {
         return new Promise(resolve => {
           const url = item.get('name', item.get('url'))
 
+          // see if these exist so we can prevent edits from being over-written
+          const title = item.get('name', item.get('title'))
+          const ratio = item.get('name', item.get('ratio'))
+
           // ES6 Fetch docs
           // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 
@@ -216,9 +220,9 @@ export default class VimeoControl extends Component {
               //console.log(url, name, poster, ratio, newValue)
               //this.handleChangeForUpdate(index, 'video', newValue)
 
-              this.handleChangeForUpdate(index, 'title', name)
+              if (!title) this.handleChangeForUpdate(index, 'title', name)
               this.handleChangeForUpdate(index, 'poster', poster)
-              this.handleChangeForUpdate(index, 'ratio', ratio)
+              if (!ratio) this.handleChangeForUpdate(index, 'ratio', ratio)
 
               resolve({
                 title: name,

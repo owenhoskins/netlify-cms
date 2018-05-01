@@ -45,8 +45,8 @@ collections: # A list of collections the CMS should be able to edit
         fields:
           - {label: 'Title', name: 'title', widget: 'string'}
           - {label: 'ID', name: 'url', widget: 'number'}
-          - {label: 'Ratio', name: 'ratio', widget: hidden}
-          - {label: 'Poster', name: 'poster', widget: hidden}
+          - {label: 'Ratio', name: 'ratio', widget: 'string'}
+          - {label: 'Poster', name: 'poster', widget: 'string'}
       - {label: "Biography Text", name: "body", widget: "markdown", required: false}
 
   - name: services
@@ -57,9 +57,16 @@ collections: # A list of collections the CMS should be able to edit
     meta:
       - {label: "SEO Description", name: "description", widget: "text"}
     fields:
+      - {label: "Order", name: "order", widget: "number", min: 1, max: 99}
       - {label: "Title", name: "title", widget: "string", tagname: "h1"}
       - {label: "Description", name: "description", widget: "text"}
-      - {label: "Order", name: "order", widget: "number", min: 0, max: 99}
+      - label: Bullets
+        label_singular: Bullet
+        name: bullets
+        widget: list
+        required: false
+        fields:
+          - {label: Bullet, name: text, widget: string}
 
 
   - name: "settings"
@@ -68,32 +75,49 @@ collections: # A list of collections the CMS should be able to edit
     editor:
       preview: false
     files:
-      - name: "general"
-        label: "Site Settings"
-        file: "_data/settings.json"
-        description: "General Site Settings"
+      - name: metadata
+        label: Global Settings
+        file: data/site-metadata.yml
+        description: "Settings"
         fields:
-          - {label: "Global title", name: "site_title", widget: "string"}
-          - label: "Post Settings"
-            name: posts
-            widget: "object"
+          - {label: "Name of website", name: title, widget: "string"}
+          - {label: "Google Analytics UA-Code", name: trackingId, widget: "string"}
+          - label: "Meta"
+            name: meta
+            widget: object
             fields:
-              - {label: "Number of posts on frontpage", name: front_limit, widget: number}
-              - {label: "Default Author", name: author, widget: string}
-              - {label: "Default Thumbnail", name: thumb, widget: image, class: "thumb"}
+              - label: Description
+                name: description
+                widget: text
+                required: false
+              - label: Keywords
+                name: keywords
+                widget: text
+                required: false
 
-      - name: "authors"
-        label: "Authors"
-        file: "_data/authors.yml"
-        description: "Author descriptions"
+      - name: agency
+        label: Agency
+        file: 'data/agency.yml'
         fields:
-          - name: authors
-            label: Authors
-            label_singular: "Author"
+          - {label: "Title", name: "title", widget: "string", tagname: "h1"}
+          - {label: "Description", name: "description", widget: "text"}
+          - name: contact
+            label: Contact
             widget: list
+            required: false
             fields:
-              - {label: "Name", name: "name", widget: "string"}
-              - {label: "Description", name: "description", widget: "markdown"}
+              - {label: Header, name: header, widget: string}
+              - {label: Name, name: name, widget: string}
+              - {label: Url, name: url, widget: string}
+          - name: addresses
+            label: Addresses
+            widget: list
+            required: false
+            fields:
+              - {label: Header, name: header, widget: string}
+              - {label: Address, name: address, widget: text}
+
+
 
   - name: "kitchenSink" # all the things in one entry, for documentation and quick testing
     label: "Kitchen Sink"
