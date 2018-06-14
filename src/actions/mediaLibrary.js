@@ -74,6 +74,7 @@ export function loadMedia(opts = {}) {
 }
 
 export function persistMedia(file, opts = {}) {
+  console.log('persistMedia called! ', file, opts)
   const { privateUpload } = opts;
   return async (dispatch, getState) => {
     const state = getState();

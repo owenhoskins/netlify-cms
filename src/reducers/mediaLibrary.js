@@ -15,7 +15,19 @@ import {
   MEDIA_DELETE_REQUEST,
   MEDIA_DELETE_SUCCESS,
   MEDIA_DELETE_FAILURE,
+  persistMedia
 } from 'Actions/mediaLibrary';
+
+
+//https://blog.lavrton.com/javascript-loops-how-to-handle-async-await-6252dd3c795
+async function presistMediaLoop(array) {
+  console.log('presistMediaLoop: ', array)
+  const promises = array.map(item => {
+    return persistMedia(item, { privateUpload: false })
+  })
+  await Promise.all(promises);
+}
+
 
 const mediaLibrary = (state = Map({ isVisible: false, controlMedia: Map() }), action) => {
   const privateUploadChanged = state.get('privateUpload') !== get(action, ['payload', 'privateUpload']);
@@ -113,6 +125,8 @@ const mediaLibrary = (state = Map({ isVisible: false, controlMedia: Map() }), ac
       }
       return state.withMutations(map => {
         const updatedFiles = map.get('files').filter(file => file.key !== key);
+        // remove items in updatedFiles from items in mediaLibrary.newFiles
+        // do this by the name property
         map.set('files', updatedFiles);
         map.set('isDeleting', false);
       });
@@ -122,9 +136,50 @@ const mediaLibrary = (state = Map({ isVisible: false, controlMedia: Map() }), ac
         return state;
       }
       return state.set('isDeleting', false);
+    case 'uppy/STATE_UPDATE':
+      const { currentUploads } = action.payload
+      if (currentUploads) {
+
+        const keys = Object.keys(currentUploads);
+
+        if (keys.length > 0) {
+          const key = keys[0]
+          const { result: { successful } } = currentUploads[key]
+          if (successful && successful.length > 0) {
+
+            //successful.forEach(item => {
+            //  console.log('item.data: ', item.data)
+            //  persistMedia(item.data, { privateUpload: false })
+            //})
+
+            //presistMediaLoop(successful.map(item => item.data))
+
+            // pass files to mediaLibrary.newFiles state
+
+
+
+            const newFiles = successful.map(item => {
+              return item.data
+            })
+
+            return state.withMutations(map => {
+              map.set('newFiles', newFiles);
+            });
+
+
+
+            //console.log('successful[0]: ', successful[0])
+            //console.log('successful[0].data: ', successful[0].data)
+            //const data = successful[0].data
+          }
+        }
+
+      }
     default:
       return state;
   }
 };
 
 export default mediaLibrary;
+
+

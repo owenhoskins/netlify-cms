@@ -9,6 +9,10 @@ import { mergeConfig } from 'Actions/config';
 import { setStore } from 'ValueObjects/AssetProxy';
 import { ErrorBoundary } from 'UI'
 import App from 'App/App';
+
+import Uppy from 'uppy/lib/core';
+import ReduxStore from 'uppy/lib/store/ReduxStore';
+
 import 'EditorWidgets';
 import 'MarkdownPlugins';
 import './index.css';
@@ -62,6 +66,21 @@ function bootstrap(opts = {}) {
    * Pass initial state into AssetProxy factory.
    */
   setStore(store);
+
+
+  /**
+   * Pass store to Uppy constructor
+   * https://uppy.io/docs/stores/#ReduxStore
+   */
+
+  const uppy = Uppy({
+    store: ReduxStore({
+      store: store // That's a lot of stores!
+    })
+  })
+
+  // A hacky way to access uppy from inside MediaLibrary.js
+  window.uppy = uppy
 
   /**
    * Create connected root component.

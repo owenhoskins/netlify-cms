@@ -1,10 +1,11 @@
 backend:
-  name: test-repo
+  name: github
+  repo: owenhoskins/netlify-cms-1032
+  branch: master # Branch to update (optional; defaults to master)
 
-display_url: https://example.com
-media_folder: "assets/uploads"
+media_folder: 'static/img' # this is where netlify cms places images.
 
-publish_mode: editorial_workflow # optional, enables publishing workflow
+#publish_mode: editorial_workflow # optional, enables publishing workflow
 
 collections: # A list of collections the CMS should be able to edit
   - name: "posts" # Used in routes, ie.: /admin/collections/:slug/edit
