@@ -418,9 +418,12 @@ class Backend {
     return this.implementation.deleteFile(path, commitMessage);
   }
 
-  deleteMedia(config, path) {
-    const commitMessage = commitMessageFormatter('deleteMedia', config, { path });
-    return this.implementation.deleteFile(path, commitMessage);
+  deleteMedia(config, paths) {
+    //const path = paths.length > 1 ? paths.map(path => path).join(', ') : paths[0];
+    //const commitMessage = commitMessageFormatter('deleteMedia', config, { path });
+
+    const commitMessages = paths.map(path => commitMessageFormatter('deleteMedia', config, { path }))
+    return this.implementation.deleteFile(paths, commitMessages);
   }
 
   persistUnpublishedEntry(...args) {

@@ -119,14 +119,18 @@ const mediaLibrary = (state = Map({ isVisible: false, controlMedia: Map() }), ac
     case MEDIA_DELETE_REQUEST:
       return state.set('isDeleting', true);
     case MEDIA_DELETE_SUCCESS: {
-      const { key } = action.payload.file;
+      const { files } = action.payload;
       if (privateUploadChanged) {
         return state;
       }
+
       return state.withMutations(map => {
-        const updatedFiles = map.get('files').filter(file => file.key !== key);
-        // remove items in updatedFiles from items in mediaLibrary.newFiles
-        // do this by the name property
+
+        // this finds 1 file by the key
+        //const updatedFiles = map.get('files').filter(file => file.key !== key);
+
+        // this filters down to the files to be removed
+        const updatedFiles = map.get('files').filter(file => files.findIndex(selectedFile => selectedFile.key === file.key) === -1);
         map.set('files', updatedFiles);
         map.set('isDeleting', false);
       });

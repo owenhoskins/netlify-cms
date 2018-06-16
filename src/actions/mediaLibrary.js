@@ -136,18 +136,20 @@ export function persistMedia(files, opts = {}) {
   };
 }
 
-export function deleteMedia(file, opts = {}) {
+export function deleteMedia(files, opts = {}) {
   const { privateUpload } = opts;
   return (dispatch, getState) => {
     const state = getState();
     const backend = currentBackend(state.config);
     const integration = selectIntegration(state, null, 'assetStore');
+
+    // only for integrations, ignore for the moment
     if (integration) {
       const provider = getIntegrationProvider(state.integrations, backend.getToken, integration);
       dispatch(mediaDeleting());
       return provider.delete(file.id)
         .then(() => {
-          return dispatch(mediaDeleted(file, { privateUpload }));
+          return dispatch(mediaDeleted([file], { privateUpload }));
         })
         .catch(error => {
           console.error(error);
@@ -160,9 +162,12 @@ export function deleteMedia(file, opts = {}) {
         });
     }
     dispatch(mediaDeleting());
-    return backend.deleteMedia(state.config, file.path)
+
+    // this one for now...
+
+    return backend.deleteMedia(state.config, files.map(file => file.path))
       .then(() => {
-        return dispatch(mediaDeleted(file));
+        return dispatch(mediaDeleted(files));
       })
       .catch(error => {
         console.error(error);
@@ -216,11 +221,11 @@ export function mediaDeleting() {
   return { type: MEDIA_DELETE_REQUEST };
 }
 
-export function mediaDeleted(file, opts = {}) {
+export function mediaDeleted(files, opts = {}) {
   const { privateUpload } = opts;
   return {
     type: MEDIA_DELETE_SUCCESS,
-    payload: { file, privateUpload },
+    payload: { files, privateUpload },
   };
 }
 

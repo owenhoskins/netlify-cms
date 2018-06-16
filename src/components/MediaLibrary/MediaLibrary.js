@@ -15,6 +15,7 @@ import {
   closeMediaLibrary as closeMediaLibraryAction,
 } from 'Actions/mediaLibrary';
 import { Icon } from 'UI';
+import { MediaCard } from './MediaCard'
 
 /**
  * Extensions used to determine which files to show when the media library is
@@ -30,7 +31,7 @@ class MediaLibrary extends React.Component {
    * they do not impact the rest of the application.
    */
   state = {
-    selectedFile: {},
+    selectedFiles: [],
     query: '',
   };
 
@@ -46,7 +47,7 @@ class MediaLibrary extends React.Component {
      */
     const isOpening = !this.props.isVisible && nextProps.isVisible;
     if (isOpening) {
-      this.setState({ selectedFile: {}, query: '' });
+      this.setState({ selectedFiles: [], query: '' });
     }
 
     if (isOpening && (this.props.privateUpload !== nextProps.privateUpload)) {
@@ -101,8 +102,20 @@ class MediaLibrary extends React.Component {
    * Toggle asset selection on click.
    */
   handleAssetClick = asset => {
-    const selectedFile = this.state.selectedFile.key === asset.key ? {} : asset;
-    this.setState({ selectedFile });
+    /**
+     * Check if the selected file already exisits in state.selectedFiles
+     */
+    const { selectedFiles } = this.state
+    const isSelected = selectedFiles.findIndex(file => asset.key === file.key)
+
+    let updatedSelectedFiles;
+    if (isSelected !== -1) { // found it
+      updatedSelectedFiles = selectedFiles.filter(file => file.key !== asset.key);
+    } else {
+      updatedSelectedFiles = [asset, ...selectedFiles];
+    }
+
+    this.setState({ selectedFiles: updatedSelectedFiles });
   };
 
   /**
@@ -146,15 +159,20 @@ class MediaLibrary extends React.Component {
    * Removes the selected file(s) from the backend.
    */
   handleDelete = () => {
-    const { selectedFile } = this.state;
+    const { selectedFiles } = this.state;
     const { files, deleteMedia, privateUpload } = this.props;
     if (!window.confirm('Are you sure you want to delete selected media?')) {
       return;
     }
-    const file = files.find(file => selectedFile.key === file.key);
-    deleteMedia(file, { privateUpload })
+
+    // filter props.files with state.selectedFiles
+    // and return items that are matching
+    const removeFiles = files.filter(file => selectedFiles.findIndex(selectedFile => selectedFile.key === file.key) !== -1
+    );
+
+    deleteMedia(removeFiles, { privateUpload })
       .then(() => {
-        this.setState({ selectedFile: {} });
+        this.setState({ selectedFile: [] });
       });
   };
 
@@ -223,7 +241,7 @@ class MediaLibrary extends React.Component {
       isPaginating,
       privateUpload,
     } = this.props;
-    const { query, selectedFile } = this.state;
+    const { query, selectedFiles } = this.state;
     const filteredFiles = forImage ? this.filterImages(files) : files;
     const queriedFiles = (!dynamicSearch && query) ? this.queryFilter(query, filteredFiles) : filteredFiles;
     const tableData = this.toTableData(queriedFiles);
@@ -237,7 +255,7 @@ class MediaLibrary extends React.Component {
       || (!hasFiles && 'No assets found.')
       || (!hasFilteredFiles && 'No images found.')
       || (!hasSearchResults && 'No results.');
-    const hasSelection = hasMedia && !isEmpty(selectedFile);
+    const hasSelection = hasMedia && !isEmpty(selectedFiles);
     const shouldShowButtonLoader = isPersisting || isDeleting;
 
     return (
@@ -306,21 +324,12 @@ class MediaLibrary extends React.Component {
           <div className="nc-mediaLibrary-cardGrid">
             {
               tableData.map((file, idx) =>
-                <div
+                <MediaCard
                   key={file.key}
-                  className={c('nc-mediaLibrary-card', { 'nc-mediaLibrary-card-selected': selectedFile.key === file.key })}
-                  onClick={() => this.handleAssetClick(file)}
-                  tabIndex="-1"
-                >
-                  <div className="nc-mediaLibrary-cardImage-container">
-                    {
-                      file.isViewableImage
-                        ? <img src={file.url} className="nc-mediaLibrary-cardImage"/>
-                        : <div className="nc-mediaLibrary-cardImage"/>
-                    }
-                  </div>
-                  <p className="nc-mediaLibrary-cardText">{file.name}</p>
-                </div>
+                  file={file}
+                  handleAssetClick={this.handleAssetClick}
+                  selectedFiles={selectedFiles}
+                />
               )
             }
             {
