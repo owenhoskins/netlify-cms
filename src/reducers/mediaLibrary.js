@@ -100,19 +100,13 @@ const mediaLibrary = (state = Map({ isVisible: false, controlMedia: Map() }), ac
     case MEDIA_PERSIST_REQUEST:
       return state.set('isPersisting', true);
     case MEDIA_PERSIST_SUCCESS: {
-      console.log('MEDIA_PERSIST_SUCCESS: ', action.payload)
       const { files } = action.payload;
       if (privateUploadChanged) {
         return state;
       }
       const filesWithKeys = files.map(file => ({ ...file, key: uuid() }));
       return state.withMutations(map => {
-
         const updatedFiles = map.get('files').concat(filesWithKeys);
-
-        //const fileWithKey = { ...file, key: uuid() };
-        //const updatedFiles = [fileWithKey, ...map.get('files')];
-
         map.set('files', updatedFiles);
         map.set('isPersisting', false);
       });
@@ -142,45 +136,6 @@ const mediaLibrary = (state = Map({ isVisible: false, controlMedia: Map() }), ac
         return state;
       }
       return state.set('isDeleting', false);
-    case 'uppy/STATE_UPDATE':
-      const { currentUploads } = action.payload
-      if (currentUploads) {
-
-        const keys = Object.keys(currentUploads);
-
-        if (keys.length > 0) {
-          const key = keys[0]
-          const { result: { successful } } = currentUploads[key]
-          if (successful && successful.length > 0) {
-
-            //successful.forEach(item => {
-            //  console.log('item.data: ', item.data)
-            //  persistMedia(item.data, { privateUpload: false })
-            //})
-
-            //presistMediaLoop(successful.map(item => item.data))
-
-            // pass files to mediaLibrary.newFiles state
-
-
-
-            const newFiles = successful.map(item => {
-              return item.data
-            })
-
-            return state.withMutations(map => {
-              map.set('newFiles', newFiles);
-            });
-
-
-
-            //console.log('successful[0]: ', successful[0])
-            //console.log('successful[0].data: ', successful[0].data)
-            //const data = successful[0].data
-          }
-        }
-
-      }
     default:
       return state;
   }

@@ -16,29 +16,6 @@ import {
 } from 'Actions/mediaLibrary';
 import { Icon } from 'UI';
 
-// Uppy
-
-
-import DragDrop from 'uppy/lib/react/DragDrop';
-
-/*
-
-this pattern is from AssetProxy but doesn't seem to work
-also that one is undefined. wonder what that did.
-
-let store;
-export const setUppyStore = (storeObj) => {
-  console.log('setUppyStore: ', storeObj)
-  store = storeObj;
-};
-
-*/
-/**
- * Pass store to Uppy constructor
- * https://uppy.io/docs/stores/#ReduxStore
- */
-
-
 /**
  * Extensions used to determine which files to show when the media library is
  * accessed from an image insertion field.
@@ -75,14 +52,6 @@ class MediaLibrary extends React.Component {
     if (isOpening && (this.props.privateUpload !== nextProps.privateUpload)) {
       this.props.loadMedia({ privateUpload: nextProps.privateUpload });
     }
-  }
-
-  componentDidUpdate(prevProps) {
-
-    if (this.props.newFiles !== prevProps.newFiles) {
-      this.handleNewFiles()
-    }
-
   }
 
   /**
@@ -151,23 +120,14 @@ class MediaLibrary extends React.Component {
     const { persistMedia, privateUpload } = this.props;
     const { files: fileList } = event.dataTransfer || event.target;
     const files = [...fileList];
-    const file = files[0];
+    //const file = files[0];
 
-    await persistMedia(file, { privateUpload });
+    await persistMedia(files, { privateUpload });
 
     event.target.value = null;
 
     this.scrollToTop();
   };
-
-
-  handleNewFiles = async () => {
-    const { persistMedia, privateUpload } = this.props;
-    console.log('handleNewFiles: ', this.props.newFiles)
-    // https://codeburst.io/javascript-async-await-with-foreach-b6ba62bbf404
-    // use for each with async
-    await persistMedia(this.props.newFiles, { privateUpload });
-  }
 
   /**
    * Stores the public path of the file in the application store, where the
@@ -183,7 +143,7 @@ class MediaLibrary extends React.Component {
   };
 
   /**
-   * Removes the selected file from the backend.
+   * Removes the selected file(s) from the backend.
    */
   handleDelete = () => {
     const { selectedFile } = this.state;
@@ -310,21 +270,13 @@ class MediaLibrary extends React.Component {
             </div>
           </div>
           <div className="nc-mediaLibrary-actionContainer">
-            <DragDrop
-              uppy={window.uppy}
-              locale={{
-                strings: {
-                  chooseFile: 'Upload new'
-                }
-              }}
-            />
-            {/*<FileUploadButton
+            <FileUploadButton
               className={`nc-mediaLibrary-uploadButton ${shouldShowButtonLoader ? 'nc-mediaLibrary-uploadButton-disabled' : ''}`}
               label={isPersisting ? 'Uploading...' : 'Upload new'}
               imagesOnly={forImage}
               onChange={this.handlePersist}
               disabled={shouldShowButtonLoader}
-            />*/}
+            />
             <div className="nc-mediaLibrary-lowerActionContainer">
               <button
                 className="nc-mediaLibrary-deleteButton"
@@ -385,13 +337,11 @@ class MediaLibrary extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const { config, mediaLibrary, uppy } = state;
+  const { config, mediaLibrary } = state;
   const configProps = {
     publicFolder: config.get('public_folder'),
   };
   const mediaLibraryProps = {
-    newFiles: mediaLibrary.get('newFiles'),
-    uppy: uppy,
     isVisible: mediaLibrary.get('isVisible'),
     canInsert: mediaLibrary.get('canInsert'),
     files: mediaLibrary.get('files'),
