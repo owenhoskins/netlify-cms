@@ -100,13 +100,19 @@ const mediaLibrary = (state = Map({ isVisible: false, controlMedia: Map() }), ac
     case MEDIA_PERSIST_REQUEST:
       return state.set('isPersisting', true);
     case MEDIA_PERSIST_SUCCESS: {
-      const { file } = action.payload;
+      console.log('MEDIA_PERSIST_SUCCESS: ', action.payload)
+      const { files } = action.payload;
       if (privateUploadChanged) {
         return state;
       }
+      const filesWithKeys = files.map(file => ({ ...file, key: uuid() }));
       return state.withMutations(map => {
-        const fileWithKey = { ...file, key: uuid() };
-        const updatedFiles = [fileWithKey, ...map.get('files')];
+
+        const updatedFiles = map.get('files').concat(filesWithKeys);
+
+        //const fileWithKey = { ...file, key: uuid() };
+        //const updatedFiles = [fileWithKey, ...map.get('files')];
+
         map.set('files', updatedFiles);
         map.set('isPersisting', false);
       });

@@ -73,16 +73,13 @@ export function loadMedia(opts = {}) {
   };
 }
 
-export function persistMedia(file, opts = {}) {
-  console.log('persistMedia called! ', file, opts)
+export function persistMedia(files, opts = {}) {
   const { privateUpload } = opts;
   return async (dispatch, getState) => {
     const state = getState();
     const backend = currentBackend(state.config);
     const integration = selectIntegration(state, null, 'assetStore');
-    const files = state.mediaLibrary.get('files');
-    const fileName = sanitizeSlug(file.name.toLowerCase(), state.config.get('slug'));
-    const existingFile = files.find(existingFile => existingFile.name.toLowerCase() === fileName);
+    const existingFiles = state.mediaLibrary.get('files');
 
     /**
      * Check for existing files of the same name before persisting. If no asset
@@ -90,24 +87,42 @@ export function persistMedia(file, opts = {}) {
      * expect file names to be unique. If an asset store is in use, file names
      * may not be unique, so we forego this check.
      */
-    if (!integration && existingFile) {
-      if (!window.confirm(`${existingFile.name} already exists. Do you want to replace it?`)) {
-        return;
-      } else {
-        await dispatch(deleteMedia(existingFile, { privateUpload }));
+
+    // loop in reverse for removing files that are not to be replaced
+    // https://coderwall.com/p/prvrnw/remove-items-from-array-while-iterating-over-it
+    for (i = files.length - 1; i >= 0; --i) {
+
+      const fileName = sanitizeSlug(files[i].name.toLowerCase(), state.config.get('slug'));
+      const existingFile = existingFiles.find(existingFile => existingFile.name.toLowerCase() === fileName);
+
+      if (!integration && existingFile) {
+        if (!window.confirm(`${existingFile.name} already exists. Do you want to replace it?`)) {
+          files.splice(i, 1); // Remove existing file from array
+        } else {
+          await dispatch(deleteMedia(existingFile, { privateUpload }));
+        }
       }
     }
 
     dispatch(mediaPersisting());
 
     try {
-      const assetProxy = await createAssetProxy(fileName, file, false, privateUpload);
-      dispatch(addAsset(assetProxy));
+      const assetProxyArray = await Promise.all(files.map(file => {
+        return createAssetProxy(
+          sanitizeSlug(file.name.toLowerCase(), state.config.get('slug')),
+          file,
+          false,
+          privateUpload
+        )
+      }))
+
+      assetProxyArray.forEach(assetProxy => dispatch(addAsset(assetProxy)))
+
       if (!integration) {
-        const asset = await backend.persistMedia(state.config, assetProxy);
-        return dispatch(mediaPersisted(asset));
+        const assets = await backend.persistMedia(state.config, assetProxyArray);
+        return dispatch(mediaPersisted(assets));
       }
-      return dispatch(mediaPersisted(assetProxy.asset, { privateUpload }));
+      return dispatch(mediaPersisted(assetProxyArray.map(assetProxy => assetProxy.asset), { privateUpload }));
     }
     catch(error) {
       console.error(error);
@@ -184,11 +199,11 @@ export function mediaPersisting() {
   return { type: MEDIA_PERSIST_REQUEST };
 }
 
-export function mediaPersisted(asset, opts = {}) {
+export function mediaPersisted(assets, opts = {}) {
   const { privateUpload } = opts;
   return {
     type: MEDIA_PERSIST_SUCCESS,
-    payload: { file: asset, privateUpload },
+    payload: { files: assets, privateUpload },
   };
 }
 

@@ -399,11 +399,12 @@ class Backend {
       .then(() => entryObj.slug);
   }
 
-  persistMedia(config, file) {
+  persistMedia(config, files) {
+    const path = files.length > 1 ? files.map(file => file.path).join(', ') : files[0].path;
     const options = {
-      commitMessage: commitMessageFormatter('uploadMedia', config, { path: file.path }),
+      commitMessage: commitMessageFormatter('uploadMedia', config, { path: path }),
     };
-    return this.implementation.persistMedia(file, options);
+    return this.implementation.persistMedia(files, options);
   }
 
   deleteEntry(config, collection, slug) {

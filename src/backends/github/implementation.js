@@ -114,13 +114,14 @@ export default class GitHub {
     return this.api.persistFiles(entry, mediaFiles, options);
   }
 
-  async persistMedia(mediaFile, options = {}) {
+  async persistMedia(mediaFiles, options = {}) {
     try {
-      const response = await this.api.persistFiles(null, [mediaFile], options);
-      
-      const { sha, value, size, path, fileObj } = mediaFile;
-      const url = URL.createObjectURL(fileObj);
-      return { id: sha, name: value, size: fileObj.size, url, path: trimStart(path, '/') };
+      const response = await this.api.persistFiles(null, mediaFiles, options);
+      return mediaFiles.map(mediaFile => {
+        const { sha, value, size, path, fileObj } = mediaFile;
+        const url = URL.createObjectURL(fileObj);
+        return { id: sha, name: value, size: fileObj.size, url, path: trimStart(path, '/') };
+      })
     }
     catch(error) {
       console.error(error);

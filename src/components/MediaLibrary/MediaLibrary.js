@@ -166,7 +166,7 @@ class MediaLibrary extends React.Component {
     console.log('handleNewFiles: ', this.props.newFiles)
     // https://codeburst.io/javascript-async-await-with-foreach-b6ba62bbf404
     // use for each with async
-    await persistMedia(this.props.newFiles[0], { privateUpload });
+    await persistMedia(this.props.newFiles, { privateUpload });
   }
 
   /**
