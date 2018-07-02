@@ -129,14 +129,12 @@ export default class GitHub {
     }
   }
 
-  deleteFile(paths, commitMessages, options) {
-    const deletePromises = [];
-    paths.forEach((path, idx) => {
-      deletePromises.push(this.api.deleteFile(path, commitMessages[idx], options));
-    });
-    return Promise.all(deletePromises).then((item) => {
-      return true;
-    })
+  deleteFile(path, commitMessage, options) {
+    return this.api.deleteFile(path, commitMessage, options);
+  }
+
+  deleteFiles(files, commitMessage, options) {
+    return this.api.removeFiles(files, commitMessage, options);
   }
 
   unpublishedEntries() {

@@ -274,6 +274,11 @@ export default class API {
     return fileTree;
   }
 
+  getFileNameFromPath(path) {
+    const parts = path.split("/").filter(part => part);
+    return parts.pop();
+  }
+
   persistFiles(entry, mediaFiles, options) {
     const uploadPromises = [];
     const files = entry ? mediaFiles.concat(entry) : mediaFiles;
@@ -297,6 +302,40 @@ export default class API {
         return this.editorialWorkflowGit(fileTree, entry, mediaFilesList, options);
       }
     });
+  }
+
+  async removeFiles(files, message, options={}) {
+
+    // remove `files` from `currentFileTree`
+    const currentFileTree = await this.getTreeByDirectory()
+
+    console.log('removeFiles: files, message, currentFileTree', files, message, currentFileTree );
+
+    const fileTree = files.map(file => this.getFileNameFromPath(file.path))
+
+    const filteredFileTree = currentFileTree.tree.filter(file => fileTree.findIndex(path => path === file.path) < 0)
+
+    // set the folder structure like this for now
+    const newFileTree = {
+      static: {
+        img: {}
+      }
+    }
+
+    newFileTree.static.img = this.composeFileTree(filteredFileTree)
+
+    console.log('newFileTree: ', newFileTree)
+
+    return this.getBranch()
+      .then(branchData => this.updateTree(branchData.commit.sha, "/", newFileTree))
+      .then(changeTree => {
+        console.log("removeFiles: changeTree: ", changeTree)
+        return this.commit(message, changeTree)
+      })
+      .then(response => {
+        console.log('removeFiles commit response: ', response)
+        this.patchBranch(this.branch, response.sha)
+      });
   }
 
   deleteFile(path, message, options={}) {
@@ -688,6 +727,13 @@ export default class API {
     return Promise.resolve({ tree: [] });
   }
 
+  getTreeByDirectory(dir = `static/img/`, branch = this.branch) {
+    if (dir) {
+      return this.request(`${this.repoURL}/git/trees/${branch}:${dir}`)
+    }
+    return Promise.resolve({ tree: [] });
+  }
+
   /**
    * Get a blob from a tree. Requests individual subtrees recursively if blob is
    * nested within one or more directories.
@@ -739,7 +785,7 @@ export default class API {
 
         for (let i = 0, len = tree.tree.length; i < len; i++) {
           obj = tree.tree[i];
-          if (fileOrDir = fileTree[obj.path]) {
+          if (fileOrDir = fileTree[obj.path] === true) {
             added[obj.path] = true;
             if (fileOrDir.file) {
               updates.push({ path: obj.path, mode: obj.mode, type: obj.type, sha: fileOrDir.sha });
