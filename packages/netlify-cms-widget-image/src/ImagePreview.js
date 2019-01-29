@@ -1,12 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'react-emotion';
-import { List } from 'immutable';
+import { List, isImmutable } from 'immutable';
 import { WidgetPreviewContainer } from 'netlify-cms-ui-default';
 
-const StyledImage = styled(({ getAsset, value }) => (
-  <img src={getAsset(value)} role="presentation" />
-))`
+console.log('isImmutable: ', isImmutable);
+
+const transformUrl = (obj) => {
+  let url
+  let name
+  if (typeof obj.toJS === 'function') {
+    url = obj.get('url')
+    name = obj.get('name')
+  } else {
+    url = obj.url
+    name = obj.name
+  }
+  return `${url}-/resize/x600/${name}`
+}
+
+const StyledImage = styled(({ getAsset, value }) => {
+  console.log('StyledImage value: ', value, value.toJS === 'function')
+  return (
+  <img src={transformUrl(value)} role="presentation" />
+)
+})`
   display: block;
   max-width: 100%;
   height: auto;

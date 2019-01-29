@@ -53,7 +53,7 @@ const MediaLibraryCard = ({ style, imageUrl, text, onClick, isSelected }) => (
   >
     <CardInner isSelected={isSelected}>
       {imageUrl ? (
-        <CardImage onClick={onClick} src={imageUrl} />
+        <CardImage onClick={onClick} src={`${imageUrl}-/resize/x300/`} />
       ) : (
         <CardImagePlaceholder onClick={onClick} />
       )}

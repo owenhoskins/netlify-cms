@@ -10,7 +10,7 @@ const GridWrapper = styled.div`
 
 const MediaLibraryCardGrid = ({ onAssetClick, rowCount, columnCount, getCell, selectedUuids }) => {
   function cellRenderer({ columnIndex, rowIndex, style }) {
-    console.log('getCell(rowIndex, columnIndex): ', getCell(rowIndex, columnIndex));
+    //console.log('getCell(rowIndex, columnIndex): ', getCell(rowIndex, columnIndex));
     const file = getCell(rowIndex, columnIndex);
     return file ? (
       <MediaLibraryCard

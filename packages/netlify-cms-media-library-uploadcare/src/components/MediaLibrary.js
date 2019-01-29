@@ -47,6 +47,11 @@ const RemoveButton = styled(ActionButton)`
   color: ${colorsRaw.white};
 `
 
+const LoadFiles = styled(ActionButton)`
+  color: ${props => colors[props.active ? `active` : `inactive`]};
+  background-color: ${props => colorsRaw[props.active ? 'tealLight' : 'white']}
+`
+
 class MediaLibrary extends Component {
   constructor(...args) {
     super(...args);
@@ -69,6 +74,10 @@ class MediaLibrary extends Component {
     if (!this.state.files.length > 0) {
       this.props.actions.loadFiles();
     }
+  }
+
+  loadFiles = () => {
+    this.props.actions.loadFiles();
   }
 
   onAssetClick = uuid => {
@@ -187,6 +196,7 @@ class MediaLibrary extends Component {
             disabled={false}
           />
           <ActionsPanel>
+            <LoadFiles onClick={this.loadFiles}>Load files</LoadFiles>
             <SelectionToggle
               active={this.state.selectionMode}
               onClick={this.onSelectClick}

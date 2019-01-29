@@ -8,6 +8,19 @@ import uuid from 'uuid/v4';
 import { oneLine } from 'common-tags';
 import { lengths, components, buttons } from 'netlify-cms-ui-default';
 
+const transformUrl = (obj) => {
+  let url
+  let name
+  if (typeof obj.toJS === 'function') {
+    url = obj.get('url')
+    name = obj.get('name')
+  } else {
+    url = obj.url
+    name = obj.name
+  }
+  return `${url}-/resize/x300/${name}`
+}
+
 const MAX_DISPLAY_LENGTH = 50;
 
 const ImageWrapper = styled.div`
@@ -201,20 +214,28 @@ export default function withFileControl({ forImage } = {}) {
 
     renderImages = () => {
       const { getAsset, value } = this.props;
+      console.log("renderImages value:", value)
       if (isMultiple(value)) {
         return (
           <MultiImageWrapper>
-            {value.map(val => (
-              <ImageWrapper key={val}>
-                <Image src={getAsset(val)} />
+            {value.map(val => {
+              const url = transformUrl(val)
+
+              console.log("renderImages: ", url)
+              return (
+              <ImageWrapper key={url}>
+                <Image src={url} />
               </ImageWrapper>
-            ))}
+            )
+            }
+              )}
           </MultiImageWrapper>
         );
       }
+      const url = transformUrl(val)
       return (
         <ImageWrapper>
-          <Image src={getAsset(value)} />
+          <Image src={url} />
         </ImageWrapper>
       );
     };

@@ -46,6 +46,7 @@ export function createActions(store, mediaLibraryActions) {
         await mediaLibraryActions.deleteMedia(existingIndexFile);
       }
 
+      console.log('flushChanges indexFile... persistMedia', indexFile)
       await mediaLibraryActions.persistMedia(indexFile);
 
       return dispatch({

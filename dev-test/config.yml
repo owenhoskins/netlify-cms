@@ -1,16 +1,17 @@
 backend:
   name: github
-  repo: nd0ut/netlify-cms-gallery
-  branch: master # Branch to update (optional; defaults to master)
+  repo: owenhoskins/netlify-cms-gallery
+  branch: uploadcare # Branch to update (optional; defaults to master)
 
 display_url: https://example.com
 
-publish_mode: editorial_workflow
+# publish_mode: editorial_workflow
 media_folder: assets/uploads
 media_library:
   name: uploadcare
   config:
-    publicKey: demopublickey
+    #publicKey: demopublickey
+    publicKey: 50f112d73966e78a7993
 
 collections: # A list of collections the CMS should be able to edit
   - name: "page"
@@ -19,7 +20,22 @@ collections: # A list of collections the CMS should be able to edit
     slug: "/gallery/{{slug}}"
     create: true
     fields:
-      - { label: "Titel", name: "title", widget: "string", tagname: "h1" }
-      - { label: "Date", name: "date", widget: "datetime" }
-      - { label: "Content", name: "body", widget: "markdown" }
-      - { label: "Media (works)", name: "image_single", widget: "image", allow_multiple: true }
+      - { label: "Title", name: "title", widget: "string", tagname: "h1" }
+      - label: "Cover Image"
+        name: "image"
+        widget: "image"
+      - name: portfolios
+        label: Portfolios
+        widget: list
+        required: false
+        fields:
+          - {label: 'Title', name: 'title', widget: 'string'}
+          - name: "images"
+            label: "Gallery"
+            widget: "image"
+            class: "gallery"
+            allow_multiple: true
+            options:
+              media_library:
+                config:
+                  multiple: true

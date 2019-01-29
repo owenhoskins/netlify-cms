@@ -65,9 +65,11 @@ function getFiles(value, cdnBase) {
  * object. Group urls that get passed here were not a part of a complete and
  * untouched group, so they'll be uploaded as new images (only way to do it).
  */
-function getFile(url, cdnBase) {
+function getFile(fileObj, cdnBase) {
   const groupPattern = /~\d+\/nth\/\d+\//;
   const baseUrls = ['https://ucarecdn.com', cdnBase].filter(v => v);
+
+  const url = fileObj.url || fileObj.image
   const uploaded = baseUrls.some(baseUrl => url.startsWith(baseUrl) && !groupPattern.test(url));
   return window.uploadcare.fileFrom(uploaded ? 'uploaded' : 'url', url);
 }
@@ -78,7 +80,13 @@ function getFile(url, cdnBase) {
  */
 function openDialog(files, config, { mediaLibraryActions, uploadcareActions }) {
   const handleFileInfoList = (fileInfoList) => {
-    mediaLibraryActions.insertMedia(fileInfoList.map(fileInfo => fileInfo.cdnUrl));
+    mediaLibraryActions.insertMedia(fileInfoList.map(fileInfo => {
+      return {
+        url: fileInfo.cdnUrl,
+        name: fileInfo.name,
+        aspectRatio: fileInfo.originalImageInfo.width / fileInfo.originalImageInfo.height
+      }
+    }));
     uploadcareActions.addFiles(fileInfoList);
   };
 
@@ -176,7 +184,7 @@ async function init({ options = { config: {} }, store, mediaLibraryActions }) {
        * Resolve the promise only if it's ours. Only the jQuery promise objects
        * from the Uploadcare library will have a `state` method.
        */
-      if (files && !files.state) {
+      if (files && !files.state && files.then) {
         files.then(result =>
           openDialog(result, resolvedConfig, { uploadcareActions, mediaLibraryActions }),
         );

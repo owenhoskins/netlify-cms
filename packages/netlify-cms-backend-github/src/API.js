@@ -291,6 +291,7 @@ export default class API {
       if (file.uploaded) {
         return;
       }
+      console.log('composeFileTree file:', file, file.path)
       parts = file.path.split('/').filter(part => part);
       filename = parts.pop();
       subtree = fileTree;
@@ -308,6 +309,7 @@ export default class API {
 
   persistFiles(entry, mediaFiles, options) {
     const uploadPromises = [];
+    console.log('persistFiles: ', entry, mediaFiles)
     const files = entry ? mediaFiles.concat(entry) : mediaFiles;
 
     files.forEach(file => {
