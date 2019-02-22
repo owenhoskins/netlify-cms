@@ -4,40 +4,46 @@ import styled from 'react-emotion';
 import { List, isImmutable } from 'immutable';
 import { WidgetPreviewContainer } from 'netlify-cms-ui-default';
 
-const transformUrl = (obj, width) => {
+const transform = (obj, width) => {
   let url
   let name
+  let aspectRatio
   if (typeof obj.toJS === 'function') {
     url = obj.get('url')
     name = obj.get('name')
+    aspectRatio = obj.get('aspectRatio')
   } else {
     url = obj.url
     name = obj.name
+    aspectRatio = obj.aspectRatio
   }
-  return `${url}-/resize/x${width}/${name}`
+  return {
+    url: `${url}-/resize/x${width}/${name}`,
+    aspectRatio
+  }
 }
 
-const SingleImage = styled.img`
-  display: block;
-  max-width: 100%;
-  height: auto;
+const GalleryImage = styled.img`
+  display: inline-block;
+  height: 320px;
 `;
 
-console.log('SingleImage: ', SingleImage)
 
 const ImagePreviewContent = props => {
   const { value, getAsset } = props;
   // here we return a gallery format
   if (Array.isArray(value) || List.isList(value)) {
-    console.log('Yo from ImagePreview')
-    return value.map(val =>
-      <SingleImage key={val} src={transformUrl(val, 1200)} role="presentation" />);
+    return value.map(val => {
+      const image = transform(val, 400)
+      console.log('aspectRatio: ', image.aspectRatio)
+      return <GalleryImage key={val} src={image.url} role="presentation" />
+    });
   }
   // here we return a full width image
-  return <SingleImage key={value} src={transformUrl(value, 1600)} role="presentation" />;
+  return <GalleryImage key={value} src={transform(value, 1600).url} role="presentation" />;
 };
 
-const ImagePreview = props => {
+const GalleryPreview = props => {
   return (
     <WidgetPreviewContainer>
       {props.value ? <ImagePreviewContent {...props} /> : null}
@@ -45,9 +51,9 @@ const ImagePreview = props => {
   );
 };
 
-ImagePreview.propTypes = {
+GalleryPreview.propTypes = {
   getAsset: PropTypes.func.isRequired,
   value: PropTypes.node,
 };
 
-export default ImagePreview;
+export default GalleryPreview;

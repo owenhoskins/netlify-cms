@@ -15,6 +15,9 @@ import { BooleanControl } from 'netlify-cms-widget-boolean/src';
 
 const { registerWidget } = cms;
 
+import { GalleryControl, GalleryPreview } from '../../netlify-cms-widget-gallery/src';
+registerWidget('gallery', GalleryControl, GalleryPreview);
+
 registerWidget('string', StringControl, StringPreview);
 registerWidget('text', TextControl, TextPreview);
 registerWidget('number', NumberControl, NumberPreview);

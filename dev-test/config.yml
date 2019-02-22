@@ -30,9 +30,9 @@ collections: # A list of collections the CMS should be able to edit
         required: false
         fields:
           - {label: 'Title', name: 'title', widget: 'string'}
-          - name: "images"
+          - name: "gallery"
             label: "Gallery"
-            widget: "image"
+            widget: "gallery"
             class: "gallery"
             allow_multiple: true
             options:
