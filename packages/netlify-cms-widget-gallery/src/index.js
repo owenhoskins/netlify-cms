@@ -5,11 +5,11 @@ import { renderToString } from "react-dom/server"
 import { renderStylesToString } from "emotion-server"
 import styled from 'react-emotion';
 
-import { withFileControl } from 'netlify-cms-widget-file';
+import withFileControl from './components/withFileControl';
+
 import { ImagePreview } from 'netlify-cms-widget-image';
 
 export const GalleryControl = withFileControl({ forImage: true });
-//export const GalleryPreview = ImagePreview;
 export GalleryPreview from './components/GalleryPreview';
 
 class CSSInjector extends React.Component {

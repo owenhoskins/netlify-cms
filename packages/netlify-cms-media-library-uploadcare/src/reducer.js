@@ -20,6 +20,11 @@ const reducer = (state = Map(defaultState), action) => {
             return
           }
 
+          // right here I can add more fields to the fileInfo
+          // I guess.
+
+          console.log('UPLOADCARE_ADD_FILES: ', fileInfo.uuid, fileInfo)
+
           map.set('dirty', true);
           map.update('files', files => files.set(fileInfo.uuid, fileInfo));
         })

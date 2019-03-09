@@ -53,9 +53,19 @@ function getFileGroup(files) {
  * because the value we're returning may be a promise that we created.
  */
 function getFiles(value, cdnBase) {
+  console.log('getFiles', value)
   if (Array.isArray(value) || Iterable.isIterable(value)) {
     const arr = Array.isArray(value) ? value : value.toJS();
-    return isFileGroup(arr) ? getFileGroup(arr) : arr.map(val => getFile(val, cdnBase));
+    const files = isFileGroup(arr) ? getFileGroup(arr) : arr.map(val => getFile(val, cdnBase));
+    console.log('files: ', files)
+
+    Promise.all(files).then(filesInfoList => {
+      filesInfoList.map(fileInfo => {
+        console.log('fileInfo: ', fileInfo)
+      })
+    })
+
+    return files
   }
   return value && typeof value === 'string' ? getFile(value, cdnBase) : null;
 }
@@ -71,7 +81,9 @@ function getFile(fileObj, cdnBase) {
 
   const url = fileObj.url || fileObj.image
   const uploaded = baseUrls.some(baseUrl => url.startsWith(baseUrl) && !groupPattern.test(url));
-  return window.uploadcare.fileFrom(uploaded ? 'uploaded' : 'url', url);
+  const file = window.uploadcare.fileFrom(uploaded ? 'uploaded' : 'url', url);
+  console.log('getFile: ', file)
+  return file
 }
 
 /**
@@ -137,7 +149,8 @@ async function init({ options = { config: {} }, store, mediaLibraryActions }) {
       .querySelector('use')
       .setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#uploadcare--icon-menu');
 
-    console.log('mediaLibrary registered: ', ReactDOM);
+    //console.log('mediaLibrary registered: ', ReactDOM);
+    console.log('do we see things')
 
     ReactDOM.render(
       <MediaLibrary

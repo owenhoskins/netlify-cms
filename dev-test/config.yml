@@ -24,6 +24,10 @@ collections: # A list of collections the CMS should be able to edit
       - label: "Cover Image"
         name: "image"
         widget: "image"
+        options:
+          media_library:
+            config:
+              multiple: false
       - name: portfolios
         label: Portfolios
         widget: list
@@ -34,8 +38,3 @@ collections: # A list of collections the CMS should be able to edit
             label: "Gallery"
             widget: "gallery"
             class: "gallery"
-            allow_multiple: true
-            options:
-              media_library:
-                config:
-                  multiple: true

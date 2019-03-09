@@ -23,8 +23,6 @@ const SingleImage = styled.img`
   height: auto;
 `;
 
-console.log('SingleImage: ', SingleImage)
-
 const ImagePreviewContent = props => {
   const { value, getAsset } = props;
   // here we return a gallery format

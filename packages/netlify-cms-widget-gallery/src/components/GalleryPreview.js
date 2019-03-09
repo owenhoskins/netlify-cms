@@ -4,43 +4,65 @@ import styled from 'react-emotion';
 import { List, isImmutable } from 'immutable';
 import { WidgetPreviewContainer } from 'netlify-cms-ui-default';
 
-const transform = (obj, width) => {
-  let url
-  let name
-  let aspectRatio
-  if (typeof obj.toJS === 'function') {
-    url = obj.get('url')
-    name = obj.get('name')
-    aspectRatio = obj.get('aspectRatio')
-  } else {
-    url = obj.url
-    name = obj.name
-    aspectRatio = obj.aspectRatio
-  }
-  return {
-    url: `${url}-/resize/x${width}/${name}`,
-    aspectRatio
-  }
+import Gallery from './Gallery';
+import Img from './Image';
+import { getSizes } from '../utils';
+
+
+const renderImage = (props) => {
+  const {
+    photo: { width, height, originalSizes },
+    margin,
+    onClick,
+  } = props
+  return (
+    <div
+      style={{
+        width,
+        height,
+        display: 'inline-block',
+        margin,
+        cursor: 'pointer'
+      }}
+      onClick={(evt) => onClick(evt, props)}
+    >
+      <Img sizes={originalSizes} />
+    </div>
+  )
 }
-
-const GalleryImage = styled.img`
-  display: inline-block;
-  height: 320px;
-`;
-
 
 const ImagePreviewContent = props => {
   const { value, getAsset } = props;
-  // here we return a gallery format
+  const photos = [];
+  const ratios = [];
+
   if (Array.isArray(value) || List.isList(value)) {
-    return value.map(val => {
-      const image = transform(val, 400)
-      console.log('aspectRatio: ', image.aspectRatio)
-      return <GalleryImage key={val} src={image.url} role="presentation" />
+    value.forEach(val => {
+      const sizes = getSizes(val, 500)
+      if (sizes && sizes.aspectRatio) {
+        const { aspectRatio, src, srcSet } = sizes
+        const srcSetArray = srcSet.split(',')
+        photos.push({
+          width: aspectRatio,
+          height: 1,
+          src,
+          srcSet: srcSetArray,
+          sizes: [sizes.sizes],
+          originalSizes: sizes,
+        })
+        ratios.push(aspectRatio)
+      }
     });
   }
-  // here we return a full width image
-  return <GalleryImage key={value} src={transform(value, 1600).url} role="presentation" />;
+
+  return <Gallery
+    margin={16}
+    columns={4}
+    ratios={ratios}
+    balanced
+    ImageComponent={renderImage}
+    photos={photos}
+  />
 };
 
 const GalleryPreview = props => {

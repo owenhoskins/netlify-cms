@@ -7,6 +7,7 @@ export const UPLOADCARE_LOAD = 'UPLOADCARE_LOAD';
 
 async function files2index(files) {
   const jsonString = JSON.stringify(files.toJSON());
+  console.log('files2index: ', jsonString)
   const file = new File([jsonString], 'uploadcare-index.json', {
     type: 'application/json',
     lastModified: new Date(),

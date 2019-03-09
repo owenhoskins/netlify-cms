@@ -55,7 +55,9 @@ injectGlobal`
 
 const StyledSplitPane = styled(SplitPane)`
   ${styles.splitPane};
-
+  .Pane1 {
+    max-width: 800px;
+  }
   /**
    * Quick fix for preview pane not fully displaying in Safari
    */
@@ -81,7 +83,6 @@ const EditorContainer = styled.div`
 `;
 
 const Editor = styled.div`
-  max-width: 1600px;
   height: 100%;
   margin: 0 auto;
   position: relative;
