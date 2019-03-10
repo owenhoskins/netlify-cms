@@ -18,6 +18,10 @@ const { registerWidget } = cms;
 import { GalleryControl, GalleryPreview } from '../../netlify-cms-widget-gallery/src';
 registerWidget('gallery', GalleryControl, GalleryPreview);
 
+import { VimeoControl, VimeoPreview } from '../../netlify-cms-widget-vimeo/src';
+registerWidget('vimeo', VimeoControl, VimeoPreview);
+
+
 registerWidget('string', StringControl, StringPreview);
 registerWidget('text', TextControl, TextPreview);
 registerWidget('number', NumberControl, NumberPreview);

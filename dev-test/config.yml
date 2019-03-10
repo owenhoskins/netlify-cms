@@ -29,7 +29,8 @@ collections: # A list of collections the CMS should be able to edit
             config:
               multiple: false
       - name: portfolios
-        label: Portfolios
+        label: Images
+        label_singular: Portfolio
         widget: list
         required: false
         fields:
@@ -38,3 +39,13 @@ collections: # A list of collections the CMS should be able to edit
             label: "Gallery"
             widget: "gallery"
             class: "gallery"
+      - name: videos
+        label: Videos
+        label_singular: Video
+        widget: vimeo
+        required: false
+        fields:
+          - {label: 'ID', name: 'url', widget: 'number', valueType: 'int'}
+          - {label: 'Title', name: 'title', widget: 'string'}
+          - {label: 'Poster', name: 'poster', widget: 'string'}
+          - {label: 'Ratio', name: 'ratio', widget: 'string'}
