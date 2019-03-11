@@ -35,6 +35,7 @@ collections: # A list of collections the CMS should be able to edit
         required: false
         fields:
           - {label: 'Title', name: 'title', widget: 'string'}
+          - {label: 'Columns', name: 'columns', widget: 'number', min: 3, max: 9, valueType: 'int'}
           - name: "gallery"
             label: "Gallery"
             widget: "gallery"

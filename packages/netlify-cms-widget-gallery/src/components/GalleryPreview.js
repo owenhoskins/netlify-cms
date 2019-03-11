@@ -22,9 +22,8 @@ const renderImage = (props) => {
         height,
         display: 'inline-block',
         margin,
-        cursor: 'pointer'
+        //cursor: 'pointer'
       }}
-      onClick={(evt) => onClick(evt, props)}
     >
       <Img sizes={originalSizes} />
     </div>

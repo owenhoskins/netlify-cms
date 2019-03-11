@@ -43,7 +43,8 @@
     "netlify-cms-widget-relation": "^2.0.5",
     "netlify-cms-widget-select": "^2.1.0",
     "netlify-cms-widget-string": "^2.0.4",
-    "netlify-cms-widget-text": "^2.0.6"
+    "netlify-cms-widget-text": "^2.0.6",
+    "emotion-server": "^9.0.0"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^4.5.2",

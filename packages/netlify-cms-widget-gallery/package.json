@@ -22,21 +22,21 @@
     "webpack-cli": "^3.1.0"
   },
   "peerDependencies": {
+    "common-tags": "^1.8.0",
     "immutable": "^3.7.6",
     "netlify-cms-ui-default": "^2.0.0",
     "prop-types": "^15.5.10",
     "react": "^16.4.1",
     "react-dom": "^16.0.0",
     "react-immutable-proptypes": "^2.1.0",
-    "common-tags": "^1.8.0",
     "uuid": "^3.3.2"
   },
   "private": true,
   "dependencies": {
     "emotion": "^9.2.6",
-    "react-emotion": "^9.2.6",
     "emotion-server": "^9.0.0",
     "netlify-cms-ui-default": "^2.0.4",
+    "react-emotion": "^9.2.6",
     "react-intersection-observer": "^3.0.3",
     "react-virtualized": "^9.20.1"
   }
