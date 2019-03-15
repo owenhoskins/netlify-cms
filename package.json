@@ -25,7 +25,7 @@
     "publish": "run-s test publish:version publish:prepare publish:push",
     "publish:prepare": "run-s bootstrap build",
     "publish:version": "lerna version --no-push",
-    "publish:push": "git push --follow-tags && lerna publish --skip-npm",
+    "publish:push": "git push --follow-tags owenhoskins netlify-cms-lerna-test && lerna publish --skip-npm",
     "publish:dry-run": "lerna version --no-git-tag-version --no-push",
     "format": "run-s \"lint:css -- --fix --quiet\" \"lint:js -- --fix --quiet\" \"format:prettier -- --write\"",
     "format:prettier": "prettier \"{{packages,scripts,website}/**/,}*.{js,css}\"",
