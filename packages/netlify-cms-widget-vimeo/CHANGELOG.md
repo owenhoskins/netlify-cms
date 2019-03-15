@@ -3,12 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## 0.1.1 (2019-03-15)
+## 2.0.8 (2019-03-15)
 
-**Note:** Version bump only for package netlify-cms-widget-gallery
-
-
-
-
-
-# Change Log
+**Note:** Version bump only for package netlify-cms-widget-vimeo

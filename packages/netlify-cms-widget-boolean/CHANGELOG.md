@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.6](https://github.com/netlify/netlify-cms/tree/master/packages/netlify-cms-widget-boolean/compare/netlify-cms-widget-boolean@2.0.4...netlify-cms-widget-boolean@2.0.6) (2019-03-15)
+
+
+### Bug Fixes
+
+* **widgets:** fix list object field default values ([#1826](https://github.com/netlify/netlify-cms/tree/master/packages/netlify-cms-widget-boolean/issues/1826)) ([c765793](https://github.com/netlify/netlify-cms/tree/master/packages/netlify-cms-widget-boolean/commit/c765793))
+
+
+
+
+
 ## [2.0.5](https://github.com/netlify/netlify-cms/tree/master/packages/netlify-cms-widget-boolean/compare/netlify-cms-widget-boolean@2.0.4...netlify-cms-widget-boolean@2.0.5) (2018-11-12)
 
 
