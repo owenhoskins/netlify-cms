@@ -31,7 +31,6 @@
     "react-immutable-proptypes": "^2.1.0",
     "uuid": "^3.3.2"
   },
-  "private": true,
   "dependencies": {
     "emotion": "^9.2.6",
     "emotion-server": "^9.0.0",
