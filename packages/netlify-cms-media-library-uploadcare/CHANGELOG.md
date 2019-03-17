@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/netlify/netlify-cms/tree/master/packages/netlify-cms-media-library-uploadcare/compare/netlify-cms-media-library-uploadcare@0.2.0...netlify-cms-media-library-uploadcare@0.4.0) (2019-03-17)
+
+
+### Bug Fixes
+
+* **uploadcare:** allow to be Uploadcare to be used in list widget ([#1774](https://github.com/netlify/netlify-cms/tree/master/packages/netlify-cms-media-library-uploadcare/issues/1774)) ([deaac3d](https://github.com/netlify/netlify-cms/tree/master/packages/netlify-cms-media-library-uploadcare/commit/deaac3d))
+
+
+### Features
+
+* add cloudinary support ([#1932](https://github.com/netlify/netlify-cms/tree/master/packages/netlify-cms-media-library-uploadcare/issues/1932)) ([1fc2f50](https://github.com/netlify/netlify-cms/tree/master/packages/netlify-cms-media-library-uploadcare/commit/1fc2f50))
+
+
+
+
+
 # [0.3.0](https://github.com/netlify/netlify-cms/tree/master/packages/netlify-cms-media-library-uploadcare/compare/netlify-cms-media-library-uploadcare@0.2.1...netlify-cms-media-library-uploadcare@0.3.0) (2018-12-04)
 
 
