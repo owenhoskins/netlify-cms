@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://github.com/netlify/netlify-cms/compare/netlify-cms@2.1.2...netlify-cms@2.5.0) (2019-03-17)
+
+
+### Features
+
+* add cloudinary support ([#1932](https://github.com/netlify/netlify-cms/issues/1932)) ([1fc2f50](https://github.com/netlify/netlify-cms/commit/1fc2f50))
+
+
+
+
+
 # [2.4.0](https://github.com/netlify/netlify-cms/compare/netlify-cms@2.1.2...netlify-cms@2.4.0) (2019-03-17)
 
 

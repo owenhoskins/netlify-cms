@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/netlify/netlify-cms/tree/master/packages/netlify-cms-widget-date/compare/netlify-cms-widget-date@2.0.5...netlify-cms-widget-date@2.3.0) (2019-03-17)
+
+
+### Bug Fixes
+
+* **a11y:** correct label "for" references to fields ([#1904](https://github.com/netlify/netlify-cms/tree/master/packages/netlify-cms-widget-date/issues/1904)) ([955f94f](https://github.com/netlify/netlify-cms/tree/master/packages/netlify-cms-widget-date/commit/955f94f))
+* **widget-date:** fix default value for nested date widget ([#1859](https://github.com/netlify/netlify-cms/tree/master/packages/netlify-cms-widget-date/issues/1859)) ([d8f8887](https://github.com/netlify/netlify-cms/tree/master/packages/netlify-cms-widget-date/commit/d8f8887))
+
+
+### Features
+
+* **widget-date:** add input display formatting ([#1739](https://github.com/netlify/netlify-cms/tree/master/packages/netlify-cms-widget-date/issues/1739)) ([855efd8](https://github.com/netlify/netlify-cms/tree/master/packages/netlify-cms-widget-date/commit/855efd8))
+
+
+
+
+
 # [2.2.0](https://github.com/netlify/netlify-cms/tree/master/packages/netlify-cms-widget-date/compare/netlify-cms-widget-date@2.0.5...netlify-cms-widget-date@2.2.0) (2019-03-17)
 
 
